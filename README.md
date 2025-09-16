@@ -67,6 +67,20 @@ The application includes a visual workflow builder with three types of nodes:
    - Returns title, description, and bullet points
    - Takes single ASIN as input
 
+## 📸 Screenshots
+
+### Workflow Builder in Action
+![Workflow Editor](images/example-workflow.png)
+*Visual workflow designer showing a sequential product analysis workflow with three connected nodes: Get Best Selling ASINs → Get ASIN by Index → Get ASIN Details*
+
+### Main Dashboard
+![Dashboard](images/landing-page.png)
+*Dashboard showing what workflows are in the application*
+
+### Product Catalog
+![My Products](images/my-products-page.png)
+*Comprehensive product table with product attributes*
+
 ### Core Functionality
 - **Visual Workflow Designer**: Drag-and-drop interface using ReactFlow
 - **Workflow Execution**: Run workflows and view results
