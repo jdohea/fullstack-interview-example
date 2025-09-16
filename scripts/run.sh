@@ -1,10 +1,13 @@
 #!/bin/bash
 
+# Change to project root directory
+cd "$(dirname "$0")/.."
+
 echo "🚀 Starting Workflow Builder Application..."
 
 # Check if setup has been run
 if [ ! -d "frontend/node_modules" ]; then
-    echo "❌ Please run setup first: ./setup.sh"
+    echo "❌ Please run setup first: ./scripts/setup.sh"
     exit 1
 fi
 

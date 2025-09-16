@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Change to project root directory
+cd "$(dirname "$0")/.."
+
 echo "🧪 Running Workflow Builder Test Suite..."
 
 # Colors for output
@@ -32,7 +35,7 @@ run_test() {
 # Check if services are running
 echo "🔍 Checking if services are running..."
 if ! docker-compose ps | grep -q "Up"; then
-    echo -e "${RED}❌ Services not running. Please run './run.sh' first.${NC}"
+    echo -e "${RED}❌ Services not running. Please run './scripts/run.sh' first.${NC}"
     exit 1
 fi
 

@@ -34,9 +34,9 @@ A comprehensive full-stack application demonstrating a workflow builder similar 
 
 | Command | Purpose | Description |
 |---------|---------|-------------|
-| `./setup.sh` | **Setup** | Initialize database, install dependencies, build images |
-| `./run.sh` | **Run** | Start all services (frontend, backend, database) |
-| `./test.sh` | **Test** | Run comprehensive test suite with quality checks |
+| `./scripts/setup.sh` | **Setup** | Initialize database, install dependencies, build images |
+| `./scripts/run.sh` | **Run** | Start all services (frontend, backend, database) |
+| `./scripts/test.sh` | **Test** | Run comprehensive test suite with quality checks |
 
 The application will be available at:
 - **Frontend**: http://localhost:3000
@@ -66,6 +66,20 @@ The application includes a visual workflow builder with three types of nodes:
    - Fetches detailed information for a single ASIN
    - Returns title, description, and bullet points
    - Takes single ASIN as input
+
+## 📸 Screenshots
+
+### Workflow Builder in Action
+![Workflow Editor](images/example-workflow.png)
+*Visual workflow designer showing a sequential product analysis workflow with three connected nodes: Get Best Selling ASINs → Get ASIN by Index → Get ASIN Details*
+
+### Main Dashboard
+![Dashboard](images/landing-page.png)
+*Dashboard showing what workflows are in the application*
+
+### Product Catalog
+![My Products](images/my-products-page.png)
+*Comprehensive product table with product attributes*
 
 ### Core Functionality
 - **Visual Workflow Designer**: Drag-and-drop interface using ReactFlow
@@ -124,7 +138,7 @@ docker-compose exec backend python seed_data.py
 **Quick Test Suite** (Recommended):
 ```bash
 # Run comprehensive test suite with one command
-./test.sh
+./scripts/test.sh
 ```
 
 **Manual Test Commands**:
@@ -286,7 +300,7 @@ def test_create_workflow():
 **Test Pipeline Commands**:
 ```bash
 # Complete test suite for CI/CD
-./setup.sh                                    # Setup application
+./scripts/setup.sh                            # Setup application
 docker-compose exec -T backend pytest -v     # Backend tests
 docker-compose exec -T frontend npm run build # Frontend build test
 docker-compose exec -T backend flake8 app/   # Linting
@@ -304,6 +318,13 @@ JWT_SECRET=test-secret-key
 
 ```
 workflow-builder/
+├── scripts/                  # Development and setup scripts
+│   ├── setup.sh             # Docker setup script
+│   ├── run.sh               # Docker run script
+│   ├── test.sh              # Test suite script
+│   ├── dev-db.sh            # Local dev: database only
+│   ├── dev-backend.sh       # Local dev: backend only
+│   └── dev-frontend.sh      # Local dev: frontend only
 ├── frontend/                 # React TypeScript frontend
 │   ├── src/
 │   │   ├── components/      # Reusable components
@@ -327,8 +348,7 @@ workflow-builder/
 │   ├── tests/               # Test files
 │   └── requirements.txt
 ├── docker-compose.yml        # Docker services configuration
-├── setup.sh                 # Setup script
-├── run.sh                   # Run script
+├── LOCAL-DEV.md             # Local development guide
 └── README.md
 ```
 
