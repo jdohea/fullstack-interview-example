@@ -8,6 +8,9 @@ if ! docker info >/dev/null 2>&1; then
     exit 1
 fi
 
+# Change to project root directory
+cd "$(dirname "$0")/.."
+
 # Build images
 echo "📦 Building Docker images..."
 docker-compose build
@@ -47,4 +50,4 @@ echo "📦 Building frontend image..."
 docker-compose build frontend
 
 echo "✅ Setup complete! You can now run the application with:"
-echo "   ./run.sh"
+echo "   ./scripts/run.sh"
