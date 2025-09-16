@@ -24,16 +24,35 @@ done
 
 echo "✅ PostgreSQL is ready!"
 
-# Run database migrations if needed
+# Start backend service temporarily for database operations
+echo "🔧 Starting backend service for database setup..."
+docker-compose up -d backend
+
+# Wait for backend to be ready
+echo "⏳ Waiting for backend to be ready..."
+sleep 10
+
+# Run database migrations
 echo "📊 Running database migrations..."
-cd backend
-python -m alembic upgrade head 2>/dev/null || echo "⚠️  Migrations may need to be run manually"
+docker-compose exec -T backend alembic revision --autogenerate -m "Initial migration" 2>/dev/null || echo "Migration generation skipped"
+docker-compose exec -T backend alembic upgrade head || echo "⚠️  Migration failed"
 
-# Seed the database if tables are empty
+# Create tables directly if migrations failed
+echo "📊 Ensuring database tables exist..."
+docker-compose exec -T backend python -c "
+from app.database import engine
+from app.models import Base
+Base.metadata.create_all(bind=engine)
+print('Tables created/verified successfully!')
+" || echo "⚠️  Table creation failed"
+
+# Seed the database
 echo "🌱 Seeding database with sample data..."
-python seed_data.py 2>/dev/null || echo "⚠️  Database seeding may need to be run manually"
+docker-compose exec -T backend python seed_data.py || echo "⚠️  Database seeding failed"
 
-cd ..
+# Stop backend service (keep only postgres for local development)
+echo "🔧 Stopping backend service (keeping only PostgreSQL for local development)..."
+docker-compose stop backend
 
 echo ""
 echo "✅ Database setup complete!"
