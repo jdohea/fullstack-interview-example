@@ -15,13 +15,25 @@ cd "$(dirname "$0")/.."
 echo "📦 Building Docker images..."
 docker-compose build
 
-# Start services
-echo "🔧 Starting services..."
+# Start PostgreSQL first
+echo "🔧 Starting PostgreSQL service..."
 docker-compose up -d postgres
 
 # Wait for PostgreSQL to be ready
 echo "⏳ Waiting for PostgreSQL to be ready..."
-sleep 10
+until docker-compose exec -T postgres pg_isready -U postgres >/dev/null 2>&1; do
+    echo "   Still waiting for PostgreSQL..."
+    sleep 2
+done
+echo "✅ PostgreSQL is ready!"
+
+# Start backend service for database operations
+echo "🔧 Starting backend service..."
+docker-compose up -d backend
+
+# Wait for backend to be ready
+echo "⏳ Waiting for backend to be ready..."
+sleep 15
 
 # Run database migrations
 echo "📊 Running database migrations..."
